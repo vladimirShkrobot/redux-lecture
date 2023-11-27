@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import ReduxUserItem from "../components/ReduxUserItem";
 import { useDispatch, useSelector } from "react-redux";
-import { setUsers } from "../store/userSlice";
+import { getUsersRequest } from "../store/thunks/userThunks";
 
 function Users() {
-  const users = useSelector((state) => state.user.userList);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(users);
+
   useEffect(() => {
-    dispatch(
-      setUsers([
-        { name: "petya", id: 1 },
-        { name: "petya", id: 2 },
-        { name: "petya", id: 3 },
-        { name: "petya", id: 4 },
-      ])
-    );
+    dispatch(getUsersRequest());
   }, []);
+
+  if (!!user.error) return <h1>{user.error}</h1>;
+
+  if (user.loading) return <h1>Loading...</h1>;
 
   return (
     <div>
-      {users.map((user) => (
+      {user.list.map((user) => (
         <ReduxUserItem key={user.id} user={user} />
       ))}
     </div>

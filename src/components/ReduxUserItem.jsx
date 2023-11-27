@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { selectUser } from "../store/userSlice";
+import { selectUser } from "../store/slices/userSlice";
 
 
 const UserItem = ({ user }) => {
